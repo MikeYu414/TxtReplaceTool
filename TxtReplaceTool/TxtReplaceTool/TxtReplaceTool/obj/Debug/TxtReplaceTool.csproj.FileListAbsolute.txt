@@ -1,0 +1,23 @@
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.exe.config
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.exe
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.pdb
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.csprojResolveAssemblyReference.cache
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.Properties.Resources.resources
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.csproj.GenerateResource.Cache
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.exe
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.pdb
+c:\users\administrator\documents\visual studio 2015\Projects\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.MainWindow.resources
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.exe.config
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.exe
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\TxtReplaceTool.pdb
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.csprojAssemblyReference.cache
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.MainWindow.resources
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.Properties.Resources.resources
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.csproj.GenerateResource.cache
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.exe
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.pdb
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\Janus.Windows.ButtonBar.v4.dll
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\Janus.Windows.Common.v4.dll
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\Janus.Windows.ButtonBar.v4.xml
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\bin\Debug\Janus.Windows.Common.v4.xml
+C:\Users\Xue\Documents\Tencent Files\358542827\FileRecv\MobileFile\TxtReplaceTool\TxtReplaceTool\obj\Debug\TxtReplaceTool.csproj.CopyComplete
