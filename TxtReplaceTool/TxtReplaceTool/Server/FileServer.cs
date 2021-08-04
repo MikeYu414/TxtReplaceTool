@@ -19,7 +19,7 @@ namespace TxtReplaceTool.Server
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public static string ReadFile(string path)
+        public static string ReadFile(string path, Encoding encodeType)
         {
             if (!File.Exists(path))
             {
@@ -28,7 +28,7 @@ namespace TxtReplaceTool.Server
             string str = null;
             using (FileStream fs = new FileStream(path,FileMode.Open))
             {
-                StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("gb2312"),true);
+                StreamReader sr = new StreamReader(fs, encodeType, true);
                 str = sr.ReadToEnd();
             }
             InitialDirectory = path;
@@ -41,7 +41,7 @@ namespace TxtReplaceTool.Server
         /// </summary>
         /// <param name="str"></param>
         /// <param name="path"></param>
-        public static void WriteFile(string str, string path)
+        public static void WriteFile(string str, string path, Encoding encodeType)
         {
             AdjustExists(path);
 
@@ -50,7 +50,7 @@ namespace TxtReplaceTool.Server
                 return;
             }
 
-            using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(path, false, encodeType))
             {
                 sw.Write(str);
                 sw.Close();
@@ -116,7 +116,7 @@ namespace TxtReplaceTool.Server
             return ret;
         }
 
-        public static void SaveDataToFile(List<ReplaceInfo> data, string path)
+        public static void SaveDataToFile(List<ReplaceInfo> data, string path, Encoding encodeType)
         {
             AdjustExists(path);
 
@@ -125,7 +125,7 @@ namespace TxtReplaceTool.Server
                 return;
             }
 
-            using (StreamWriter sw = new StreamWriter(path, false,Encoding.UTF8))
+            using (StreamWriter sw = new StreamWriter(path, false, encodeType))
             {
                 foreach (var item in data)
                 {
@@ -137,7 +137,7 @@ namespace TxtReplaceTool.Server
 
         }
 
-        public static List<ReplaceInfo> ReadDataFromFile(string path)
+        public static List<ReplaceInfo> ReadDataFromFile(string path, Encoding encodeType)
         {
             List<ReplaceInfo> retList = new List<ReplaceInfo>();
 
@@ -149,7 +149,7 @@ namespace TxtReplaceTool.Server
             {
                 using (FileStream fs = new FileStream(path, FileMode.Open))
                 {
-                    StreamReader sr = new StreamReader(fs, Encoding.GetEncoding("gb2312"), true);
+                    StreamReader sr = new StreamReader(fs, encodeType, true);
                     string line = sr.ReadLine();
                     while (!string.IsNullOrEmpty(line))
                     {

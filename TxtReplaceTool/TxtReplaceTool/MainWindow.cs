@@ -30,7 +30,8 @@ namespace TxtReplaceTool
             (IntPtr hwnd, out Rectangle rect);
 
         //可执行的文件后缀名
-        List<string> extNames = new List<string> { ".txt", ".cs", ".js", ".html", ".c", ".cpp", ".xml", ".bat"};
+        List<string> defaultExtNames = new List<string> { ".txt", ".cs", ".js", ".html", ".c", ".cpp", ".xml", ".bat", ".csproj" };
+        List<string> extNames = new List<string> { ".txt", ".cs", ".js", ".html", ".c", ".cpp", ".xml", ".bat", ".csproj" };
 
         //存储文件路径
         List<string> files = new List<string>();
@@ -38,6 +39,21 @@ namespace TxtReplaceTool
         public MainWindow()
         {
             InitializeComponent();
+            this.fileTypeControl.SelectedIndex = 0;
+        }
+
+        public void UpdateFileTypeLimit()
+        {
+            string fileType = this.fileTypeControl.SelectedItem.ToString();
+            if (fileType != "None")
+            {
+                extNames.Clear();
+                extNames.Add(fileType);
+            }
+            else
+            {
+                extNames = defaultExtNames;
+            }
         }
 
         /// <summary>
@@ -97,7 +113,7 @@ namespace TxtReplaceTool
         {
             foreach (var item in filePathDic)
             {
-                string fileStr = FileServer.ReadFile(item.Key);
+                string fileStr = FileServer.ReadFile(item.Key, GetEncodingType(item.Key));
                 if (fileStr == null)
                     continue;
 
@@ -105,7 +121,7 @@ namespace TxtReplaceTool
                 //替换模式
                 if (this.checkBox1.Checked)
                 {
-                    FileServer.WriteFile(fileStr, item.Key);
+                    FileServer.WriteFile(fileStr, item.Key, GetEncodingType(item.Key));
                 }
                 else
                 {
@@ -119,7 +135,7 @@ namespace TxtReplaceTool
                             this.floader.Text = path;
                         }
                     }*/
-                    FileServer.WriteFile(fileStr, item.Value);
+                    FileServer.WriteFile(fileStr, item.Value, GetEncodingType(item.Key));
                 }
             }
         }
@@ -272,7 +288,7 @@ namespace TxtReplaceTool
                     return;
                 }
                 List<ReplaceInfo> data = GetReplaceInfo();
-                FileServer.SaveDataToFile(data, floderStr);
+                FileServer.SaveDataToFile(data, floderStr, Encoding.Default);
 
                 FindAndMoveMsgBox("提示");
                 MessageBox.Show("导出成功，看这噶哒------>" + floderStr, "提示");
@@ -294,13 +310,46 @@ namespace TxtReplaceTool
             string floderStr = FileServer.GetImportFile();
             try
             {
-                List<ReplaceInfo> data = FileServer.ReadDataFromFile(floderStr);
+                List<ReplaceInfo> data = FileServer.ReadDataFromFile(floderStr, Encoding.Default);
                 this.LoadDataToDatagrid(data);
             }
             catch (Exception ex)
             {
                 FindAndMoveMsgBox("提示");
                 MessageBox.Show("读取配置失败，请检查格式（旧字符串,新字符串,true or false代表是否正则替换）------>" + floderStr, "提示");
+            }
+        }
+
+        private  Encoding GetEncodingType(string filename)
+        {
+            using (System.IO.FileStream fs = new System.IO.FileStream(filename, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            {
+                System.IO.BinaryReader br = new System.IO.BinaryReader(fs);
+                byte[] buffer = br.ReadBytes(2);
+
+                if (buffer[0] >= 0xEF)
+                {
+                    if (buffer[0] == 0xEF && buffer[1] == 0xBB)
+                    {
+                        return System.Text.Encoding.UTF8;
+                    }
+                    else if (buffer[0] == 0xFE && buffer[1] == 0xFF)
+                    {
+                        return System.Text.Encoding.BigEndianUnicode;
+                    }
+                    else if (buffer[0] == 0xFF && buffer[1] == 0xFE)
+                    {
+                        return System.Text.Encoding.Unicode;
+                    }
+                    else
+                    {
+                        return System.Text.Encoding.Default;
+                    }
+                }
+                else
+                {
+                    return System.Text.Encoding.Default;
+                }
             }
         }
 
@@ -461,6 +510,96 @@ namespace TxtReplaceTool
                     }
                 }
             }
+        }
+
+        private void DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))      //判断该文件是否可以转换到文件放置格式
+            {
+                e.Effect = DragDropEffects.Link;       //放置效果为链接放置
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;      //不接受该数据,无法放置，后续事件也无法触发
+            }
+        }
+
+        private void DragTargetFileEvent(object sender, DragEventArgs e)
+        {
+            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();     //获取文件路径
+            bool isPathRight = false;
+            if (Path.IsPathRooted(path))
+            {
+                //folder
+                if (string.IsNullOrEmpty(Path.GetExtension(path)))
+                {
+                    this.GetFloderFiles(path);
+                    foreach (var item in this.files)
+                    {
+                        this.listBox1.Items.Add(item);
+                    }
+                    isPathRight = true;
+                }
+                else // file
+                {
+                    foreach (var item in extNames)
+                    {
+                        if (path.EndsWith(item))
+                        {
+                            this.listBox1.Items.Add(path);
+                            isPathRight = true;
+                        }
+                    }
+                }
+            }
+            if (!isPathRight)
+            {
+                MessageBox.Show("目前不支持您拖拽的文件类型。");
+            }
+        }
+
+        private void DragConfigEvent(object sender, DragEventArgs e)
+        {
+            string path = ((System.Array)e.Data.GetData(DataFormats.FileDrop)).GetValue(0).ToString();     //获取文件路径
+            if (Path.GetExtension(path) == ".txt")
+            {
+                try
+                {
+                    List<ReplaceInfo> data = FileServer.ReadDataFromFile(path, Encoding.Default);
+                    this.LoadDataToDatagrid(data);
+                }
+                catch (Exception ex)
+                {
+                    FindAndMoveMsgBox("提示");
+                    MessageBox.Show("读取配置失败，请检查格式（旧字符串,新字符串,true or false代表是否正则替换）------>" + path, "提示");
+                }
+            }
+            else
+            {
+                MessageBox.Show("配置文件类型为*.txt");
+            }
+        }
+
+        private void ListBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            int index = listBox1.IndexFromPoint(e.Location);
+            // Check if the index is valid.
+            if (index != -1 && index < listBox1.Items.Count)
+            {
+                // Check if the ToolTip's text isn't already the one
+                // we are now processing.
+                if (toolTip1.GetToolTip(listBox1) != listBox1.Items[index].ToString())
+                {
+                    // If it isn't, then a new item needs to be
+                    // displayed on the toolTip. Update it.
+                    toolTip1.SetToolTip(listBox1, listBox1.Items[index].ToString());
+                }
+            }
+        }
+
+        private void FileTypeControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.UpdateFileTypeLimit();
         }
     }
 }
